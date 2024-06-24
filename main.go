@@ -6,11 +6,17 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/LUISEDOCCOR/api-devprojects/database"
+	"github.com/LUISEDOCCOR/api-devprojects/models"
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	r := mux.NewRouter()
+
+	database.Conn()
+	database.DB.AutoMigrate(models.Categories{})
+	database.DB.AutoMigrate(models.Projects{})
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
