@@ -30,10 +30,14 @@ func main() {
 	})
 	//Projects
 	r.HandleFunc("/projects", routes.GetAllProjects).Methods("GET")
+	//Create Projects
+	r.HandleFunc("/create/project/{app_key}", routes.CreateProject).Methods("POST")
 	//Projects by category
 	r.HandleFunc("/projects/{id}", routes.GetProjectsByCategory).Methods("GET")
 	//Create category
-	r.HandleFunc("/category/{app_key}", routes.CreateCategory).Methods("POST")
+	r.HandleFunc("/create/category/{app_key}", routes.CreateCategory).Methods("POST")
+	//Get categories
+	r.HandleFunc("/categories", routes.GetCategories).Methods("GET")
 
 	fmt.Println("The server is 🚀")
 	err := http.ListenAndServe(":4000", r)

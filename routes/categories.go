@@ -48,7 +48,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if category.Name == "" {
-		response := utils.CreateResponse("error", "The name field is necessary")
+		response := utils.CreateResponse("error", "All fields are required")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(response)
 		return
@@ -57,7 +57,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	err = database.DB.Create(&category).Error
 
 	if err != nil {
-		response := utils.CreateResponse("error", "Request error")
+		response := utils.CreateResponse("error", "Server Error")
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(response)
 		return
@@ -66,4 +66,12 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	response := utils.CreateResponse("success", "Successfully created")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response)
+}
+
+func GetCategories(w http.ResponseWriter, r *http.Request) {
+	var categories models.Categories
+	_ = database.DB.Find(&categories)
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(categories)
 }
